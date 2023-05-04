@@ -1,4 +1,3 @@
 module.exports = {
-  transpileDependencies: true,
-  productionTip: false
+  transpileDependencies: true
 }
