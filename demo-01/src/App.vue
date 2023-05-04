@@ -5,9 +5,9 @@
     <hr />
     <h1>指令语法</h1>
     <a :href="url">点击去百度</a> -->
-    单向数据绑定：<input type="text" v-bind:value="text">
+    <!-- 单向数据绑定：<input type="text" v-bind:value="text">
     <hr />
-    双向数据绑定：<input type="text" v-model="text">
+    双向数据绑定：<input type="text" v-model="text"> -->
   </div>
 </template>
 
@@ -58,6 +58,17 @@
  *    如何选择：目前哪种写法都可以，以后学习到组件时，data必须使用函数式，否则会报错。
  *  3. 一个重要的原则：
  *    由 Vue管理的函数，一定不要写箭头函数，一旦写了箭头函数，this就不再是Vue实例了。
+ * 
+ * 数据代理：
+ *  1. Vue中的数据代理：
+ *    通过vm对象来代理data对象中属性的操作(读/写)
+ *  2. Vue中数据代理的好处：
+ *    更加方便的操作data中的数据
+ *  3. 基本原理：
+ *    通过Object.defineProperty()把data对象中所有属性添加到vm上
+ *    为每一个添加到vm上的属性，都指定一个getter/setter。
+ *    在getter/setter内部去操作(读/写)data中对应的属性。
+ *  
  */
 export default {
   name: 'App',
@@ -66,8 +77,25 @@ export default {
     return {
       // message: 'Gorgio_Liu',
       // url: 'https://www.baidu.com'
-      text: '中国移动'
+      // text: '中国移动'
+      number: 18,
+      person: {
+        name: '张三',
+        sex: '男'
+      }
     }
+  },
+  created() {
+    window.person = Object.defineProperty(this.person, 'age', {
+      get() {
+        console.log('有人读取age属性了');
+        return this.number
+      },
+      set(value) {
+        console.log('有人修改了age属性，且值是', value);
+        this.number = value
+      }
+    })
   }
 }
 </script>
