@@ -8,6 +8,8 @@
     <!-- 单向数据绑定：<input type="text" v-bind:value="text">
     <hr />
     双向数据绑定：<input type="text" v-model="text"> -->
+    <h2>欢迎学习 {{ name }}</h2>
+    <button @click="showInfo">点击提示</button>
   </div>
 </template>
 
@@ -75,7 +77,7 @@ export default {
   components: {},
   data() { // data中用于存储数据，数据供el所指定的容器去使用，值我们暂时先写成一个对象。
     return {
-      // message: 'Gorgio_Liu',
+      name: 'vuejs',
       // url: 'https://www.baidu.com'
       // text: '中国移动'
       number: 18,
@@ -83,6 +85,11 @@ export default {
         name: '张三',
         sex: '男'
       }
+    }
+  },
+  methods: {
+    showInfo() {
+      alert('welcome study vuejs')
     }
   },
   created() {
