@@ -1,74 +1,41 @@
 <template>
   <div id="app">
-    <h1>今天天气很{{ info}}</h1>
-    <button @click="changeWeather">切换天气</button>
-    <hr />
-    <h3>a的值时：{{ numbers.a }}</h3>
-    <button @click="numbers.a++">点击让a+1</button>
-    <h3>b的值时：{{ numbers.b }}</h3>
-    <button @click="numbers.b++">点击让a+1</button>
+    姓：<input type="text" v-model='firstName'><br /><br />
+    名：<input type="text" v-model='lastName'><br /><br />
+    姓名：<span>{{ fullName }}</span>
   </div>
 </template>
 
 <script>
 /**
- * 监视属性watch：
- *  1. 当被监视的属性变化时，回调函数自动调用，进行相关操作
- *  2. 监视的属性必须存在，才能进行监视！！
- *  3. 监视的两种写法：
- *    (1). new Vue时传入watch配置
- *    (2). 通过vm.$watch监视
- * 
- * 深度监视：
- *  1. Vue中的watch默认不监测对象内部值的改变（一层）
- *  2. 配置 deep: true 可以监测对象内部值改变（多层）
- *  备注：
- *    (1). Vue自身可以监测对象内部值的改变，但Vue提供的watch默认不可以！
- *    (2). 使用watch时根据数据的具体结构，决定是否采用深度监视。
+ * computed 和 watch 之间的区别：
+ *  1. computed 能完成的功能，watch 都可以完成。
+ *  2. watch 能完成的功能，computed 不一定能完成，例如：watch可以进行异步操作。
+ * 两个重要的小原则：
+ *  1. 所被Vue管理的函数，最好写成普通函数，这样this的指向才是vm 或 组件实例对象。
+ *  2. 所有不被Vue管理的函数（定时器的回调函数、ajax的回调函数等、Promise的回调函数），
+ *     最好写成箭头函数，这样this的指向才是vm 或 组件实例对象
  */
 export default {
   name: 'App',
   data() {
     return {
-      isHot: true,
-      numbers: {
-        a: 1,
-        b: 2
-      }
+      firstName: 'zhang',
+      lastName: 'san',
+      fullName: 'zhang-san'
     }
   },
   computed: {
-    info() {
-      return this.isHot ? '炎热' : '凉爽'
-    }
   },
   watch: {
-    // 完整写法
-    // isHot: {
-    //   // immediate: true,  // 初始化时让handler调用一下
-    //   // deep: true, 深度监视
-    //   // handler什么时候调用？当isHot发生改变时
-    //   handler(newvalue, oldValue) {
-    //     console.log(newvalue, oldValue, 'isHot被修改了');
-    //   }
-    // },
-    // 简写： 
-    isHot(newvalue, oldValue) {
-      console.log(newvalue, oldValue, 'isHot被修改了');
+    firstName(val) {
+      setTimeout(() => {
+        this.fullName = val + '-' + this.lastName
+      }, 1000);
+    },
+    lastName(val) {
+      this.fullName = this.firstName + '-' + val
     }
-    // 监视多级结构中某个属性的变化
-    // 'numbers.a': {
-    //   handler() {
-    //     console.log('a被改变了');
-    //   }
-    // }
-    // 监视多级结构中所有属性的变化
-    // numbers: {
-    //   deep: true,
-    //   handler() {
-    //     console.log('number改变了');
-    //   }
-    // }
   },
   methods: {
     changeWeather() {
