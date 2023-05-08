@@ -8,47 +8,40 @@
 
 <script>
 /**
- * 计算属性：
- *  1. 定义：要用的属性不存在，要通过已有的属性计算得来。
- *  2. 原理：底层借助了Object.defineproperty方法提供的getter和setter。
- *  3. get函数什么时候执行？
- *    (1). 初次读取时会执行一次。
- *    (2). 当依赖的数据发生改变时会被再次调用。
- *  4. 优势：与methods实现相比，内部有缓存机制(复用)，效率更高，调试方便。
- *  5. 备注：
- *    1. 计算属性最终会出现在vm上，直接读取使用即可。
- *    2. 如果计算属性要被修改，那必须写set函数去响应修改，且set中要引起计算时依赖的数据发生改变。
+ * computed 和 watch 之间的区别：
+ *  1. computed 能完成的功能，watch 都可以完成。
+ *  2. watch 能完成的功能，computed 不一定能完成，例如：watch可以进行异步操作。
+ * 两个重要的小原则：
+ *  1. 所被Vue管理的函数，最好写成普通函数，这样this的指向才是vm 或 组件实例对象。
+ *  2. 所有不被Vue管理的函数（定时器的回调函数、ajax的回调函数等、Promise的回调函数），
+ *     最好写成箭头函数，这样this的指向才是vm 或 组件实例对象
  */
 export default {
   name: 'App',
   data() {
     return {
       firstName: 'zhang',
-      lastName: 'san'
+      lastName: 'san',
+      fullName: 'zhang-san'
     }
   },
   computed: {
-    // 完整写法
-    // fullName: {
-    //   // get有什么作用？当有人读取fullName时，get就会被调用，且返回值就作为fullName的值
-    //   // get什么时候调用？1. 初次读取fullName时；2. 所依赖的数据发生变化时
-    //   get() {
-    //     console.log('111');
-    //     return this.firstName + '-' + this.lastName
-    //   },
-    //   // set什么时候调用？当fullName被修改时
-    //   set(value) {
-    //     console.log(value);
-    //     const arr = value.split('-')
-    //     this.firstName = arr[0]
-    //     this.lastName = arr[1]
-    //   }
-    // }
-    // 简写
-    fullName() {
-      return this.firstName + '-' + this.lastName
+  },
+  watch: {
+    firstName(val) {
+      setTimeout(() => {
+        this.fullName = val + '-' + this.lastName
+      }, 1000);
+    },
+    lastName(val) {
+      this.fullName = this.firstName + '-' + val
     }
-  }
+  },
+  methods: {
+    changeWeather() {
+      this.isHot = !this.isHot
+    }
+  },
 
 }
 </script>
