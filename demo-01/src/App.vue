@@ -1,93 +1,86 @@
 <template>
   <div id="app">
-  <!-- 遍历数组 -->
-  <h2>人员列表(遍历数组)</h2>
-  <input type="text" placeholder="请输入名字" v-model="keyWord">
-  <button @click="sortType=2">年龄升序</button>
-  <button @click="sortType=1">年龄降序</button>
-  <button @click="sortType=0">原顺序</button>
-  <ul>
-    <li v-for="p in filPersons" :key="p.id">{{p.name}}-{{p.age}}</li>
-  </ul>
-  <!-- 遍历对象 -->
-  <!-- <h2>汽车列表(遍历对象)</h2>
-  <ul>
-    <li v-for="(value, index) in car" :key="index">{{value}}-{{index}}</li>
-  </ul> -->
+    <form @submit.prevent="demo">
+      账号：<input type="text" v-model.trim="userInfo.account" /><br /><br />
+      密码：<input type="password" v-model.trim="userInfo.password" /><br /><br />
+      年龄：<input type="number" v-model.number="userInfo.age"><br /><br />
+      性别： 男<input type="radio" name="sex" v-model="userInfo.sex" value="male" />
+      女<input
+        type="radio"
+        name="sex"
+        v-model="userInfo.sex"
+        value="famale"
+      /><br /><br />
+      爱好： 学习<input type="checkbox" v-model="userInfo.hobby" value="study" />
+      打游戏<input type="checkbox" v-model="userInfo.hobby" value="game" /> 吃饭<input
+        type="checkbox"
+        v-model="userInfo.hobby"
+        value="eat"
+      />
+      <br /><br />
+      所属校区
+      <select v-model="userInfo.city">
+        <option value="">请选择校区</option>
+        <option value="beijing">北京</option>
+        <option value="shanghai">上海</option>
+        <option value="shenzhen">深圳</option>
+        <option value="wuhan">武汉</option>
+      </select>
+      <br /><br />
+      <textarea v-model="userInfo.other"></textarea><br /><br />
+      <input type="checkbox" v-model="userInfo.agree" />阅读并接收<a
+        href="https:www.baidu.com"
+        >《用户协议》</a
+      ><br /><br />
+      <button>提交</button>
+    </form>
   </div>
 </template>
 
 <script>
+// import Vue from 'vue';
 /**
- * v-for指令
- *  1. 用于展示列表数据
- *  2. 语法：v-for="(item, index) in xxx" :key="yyy"
- *  3. 可遍历：数组、对象、字符串(用的很少)、指定次数(用的很少)
- * 
- * 面试题：react、vue中的key有什么作用？(key内部原理)
- *  1. 虚拟DOM中key的作用： 
- *    key是虚拟DOM对象的标识，当数据发生变化时，Vue会根据【新数据】生成【新的虚拟DOM】，随后Vue进行
- *   【新虚拟DOM】与【旧虚拟DOM】的差异比较，比较规则如下：
- * 
- *  2. 对比规则：
- *    (1). 旧虚拟DOM中找到了与新虚拟DOM相同的key：
- *      若虚拟DOM中内容没变，直接使用之前的真实DOM！
- *      若虚拟DOM中内容变了，则生成新的真实DOM，随后替换掉页面中之前的真实DOM。
- *    (2). 旧虚拟DOM中未找到与新虚拟DOM相同的key
- *      创建新的真实DOM，随后渲染到页面
- * 
- *  3. 用index作为key可能引发的问题：
- *    (1). 若对数据进行：逆序添加、逆序删除等破坏顺序的操作：
- *      会产生没有必要的真实DOM更新 ==> 界面效果没问题，但效率低。
- *    (2). 如果结构中还包含输入类的DOM：
- *      会产生错误的DOM更新 ==> 界面有问题。
- * 
- *  4. 开发中如何选择key？
- *    (1). 最好使用每条数据的唯一标识作为key，比如id，手机号，学号等唯一值。
- *    (2). 如果不存在对数据的逆序添加、逆序删除等破坏顺序操作，仅用于渲染列表用于展示，使用index作为key是没有问题的。
+ * 收集表单数据：
+ *  若：<input type='text' />, 则v-model收集的事value值，用户输入的就是value值。
+ *  若：<input type='radio' />, 则v-model收集的是value值，且要给标签配置value值。
+ *  若：<input type='checkbox' />,
+ *    1. 没有配置input的value属性，那么收集的就是checked (勾选 or 未勾选， 是布尔值)
+ *    2. 配置input的value属性：
+ *      (1). v-model的初始值是非数组，那么收集的就是checked (勾选 or 未勾选， 是布尔值)
+ *      (2). v-model的初始值是数组，那么收集的就是value组成的数组
+ *  备注：v-models的三个修饰符：
+ *    lazy：失去焦点再收集数据
+ *    number：输入字符串转为有效的数字
+ *    trim： 输入首尾空格过滤
  */
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      persons: [
-        {id: '001', name: '张三', age: 38},
-        {id: '002', name: '李四', age: 20},
-        {id: '003', name: '王五', age: 21},
-      ],
-      // filPersons: [],
-      keyWord: '',
-      sortType: 0, // 0原顺序、1降序、2升序
-    }
+      userInfo: {
+        account: "",
+        password: "",
+        age: '',
+        sex: "famale",
+        hobby: [],
+        city: "beijing",
+        other: "",
+        agree: "",
+      },
+    };
   },
-  computed: {
-    filPersons(){
-      const arr = this.persons.filter((p) => {
-        return p.name.indexOf(this.keyWord) !== -1
-      })
-      // 判断一下是否需要排序
-      if(this.sortType) {
-        arr.sort((p1, p2) => {
-          return this.sortType === 1 ? p2.age - p1.age : p1.age - p2.age
-        })
-      }
-      return arr
-    }
-  },
-  watch: {
-    // keyWord: {
-    //   immediate: true,
-    //   handler(val) {
-    //       this.filPersons = this.persons.filter((p) => {
-    //         return p.name.indexOf(val) !== -1
-    //       })
-    //   }
-    // }
-  },
+  computed: {},
+  watch: {},
   methods: {
+    // addSex() {
+    //   // Vue.set(this.student, 'sex', '男'),
+    //   this.$set(this.student, 'sex', '男')
+    // }
+    demo() {
+      console.log(this.userInfo);
+    },
   },
-
-}
+};
 </script>
 
 <style>
