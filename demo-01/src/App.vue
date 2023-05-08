@@ -1,74 +1,86 @@
 <template>
   <div id="app">
-    <h2>名称：{{ name }}</h2>
-    <h2>地址：{{ address }}</h2>
-    <hr />
-    <h1>学生信息</h1>
-    <button @click="addSex">添加一个性别属性，默认值为男</button>
-    <h2>姓名：{{ student.name }}</h2>
-    <h2 v-if="student.sex">性别：{{ student.sex }}</h2>
-    <h2>年龄：真实{{ student.age.rAge }}，对外{{ student.age.sAge }}</h2>
-    <ul>
-      <li v-for="(f, index) in friends" :key="index">{{ f.name }} -- {{ f.age }}</li>
-    </ul>
+    <form @submit.prevent="demo">
+      账号：<input type="text" v-model.trim="userInfo.account" /><br /><br />
+      密码：<input type="password" v-model.trim="userInfo.password" /><br /><br />
+      年龄：<input type="number" v-model.number="userInfo.age"><br /><br />
+      性别： 男<input type="radio" name="sex" v-model="userInfo.sex" value="male" />
+      女<input
+        type="radio"
+        name="sex"
+        v-model="userInfo.sex"
+        value="famale"
+      /><br /><br />
+      爱好： 学习<input type="checkbox" v-model="userInfo.hobby" value="study" />
+      打游戏<input type="checkbox" v-model="userInfo.hobby" value="game" /> 吃饭<input
+        type="checkbox"
+        v-model="userInfo.hobby"
+        value="eat"
+      />
+      <br /><br />
+      所属校区
+      <select v-model="userInfo.city">
+        <option value="">请选择校区</option>
+        <option value="beijing">北京</option>
+        <option value="shanghai">上海</option>
+        <option value="shenzhen">深圳</option>
+        <option value="wuhan">武汉</option>
+      </select>
+      <br /><br />
+      <textarea v-model="userInfo.other"></textarea><br /><br />
+      <input type="checkbox" v-model="userInfo.agree" />阅读并接收<a
+        href="https:www.baidu.com"
+        >《用户协议》</a
+      ><br /><br />
+      <button>提交</button>
+    </form>
   </div>
 </template>
 
 <script>
 // import Vue from 'vue';
 /**
- * Vue监视数据的原理：
- *  1. vue会监视data中所有层次的数据。
- * 
- *  2. 如何监测对象中的数据？
- *    通过setter实现监视，且要在new Vue时就传入要监测的数据。
- *      (1). 对象中后追加的属性，Vue默认不做响应式处理
- *      (2). 如需给后添加的属性做响应式，请使用如下API：
- *        Vue.set(target, propertyName/index, value) 或
- *        vm.$set(target, propertyName/index, value)
- * 
- *  3. 如何监测数组中的数据？
- *    通过包裹数组更新元素的方法实现，本质就是做了两件事：
- *      (1). 调用原生对应的方法对数组进行更新。
- *      (2). 重新理解模板，进而更新页面。
- * 
- *  4. 在Vue修改数组中的某个元素一定要用如下方法：
- *    (1). 使用这些API：push()、pop()、shift()、unshift()、splice()、sort()、reverse()
- *    (2). Vue.set() 或 vm.$set()
- * 
- *  ⚠️特别注意：Vue.set() 和 vm.$set() 不能给 vm 或 vm 的根数据对象添加属性！！！
+ * 收集表单数据：
+ *  若：<input type='text' />, 则v-model收集的事value值，用户输入的就是value值。
+ *  若：<input type='radio' />, 则v-model收集的是value值，且要给标签配置value值。
+ *  若：<input type='checkbox' />,
+ *    1. 没有配置input的value属性，那么收集的就是checked (勾选 or 未勾选， 是布尔值)
+ *    2. 配置input的value属性：
+ *      (1). v-model的初始值是非数组，那么收集的就是checked (勾选 or 未勾选， 是布尔值)
+ *      (2). v-model的初始值是数组，那么收集的就是value组成的数组
+ *  备注：v-models的三个修饰符：
+ *    lazy：失去焦点再收集数据
+ *    number：输入字符串转为有效的数字
+ *    trim： 输入首尾空格过滤
  */
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      name: 'Gorgio',
-      address: '上海',
-      student: {
-        name: 'tom',
-        age: {
-          rAge: 40,
-          sAge: 29
-        },
+      userInfo: {
+        account: "",
+        password: "",
+        age: '',
+        sex: "famale",
+        hobby: [],
+        city: "beijing",
+        other: "",
+        agree: "",
       },
-      friends: [
-          {name: 'jerry', age: 35},
-          {name: 'tony', age: 36}
-        ]
-    }
+    };
   },
-  computed: {
-  },
-  watch: {
-  },
+  computed: {},
+  watch: {},
   methods: {
-    addSex() {
-      // Vue.set(this.student, 'sex', '男'),
-      this.$set(this.student, 'sex', '男')
-    }
+    // addSex() {
+    //   // Vue.set(this.student, 'sex', '男'),
+    //   this.$set(this.student, 'sex', '男')
+    // }
+    demo() {
+      console.log(this.userInfo);
+    },
   },
-
-}
+};
 </script>
 
 <style>
