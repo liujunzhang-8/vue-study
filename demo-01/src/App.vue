@@ -1,43 +1,82 @@
 <template>
   <div id="app">
-    <h2>{{ name }}</h2>
+    <h2>当前的n值是：<span v-text="n"></span></h2>
+    <h2>放大10倍后的n值是：<span v-big="n"></span></h2>
+    <button @click="n++">点击+1</button>
+    <hr />
+    <input type="text" v-fbind:value="n">
   </div>
 </template>
 
 <script>
 // import Vue from 'vue';
 /**
- * v-text指令：
- *  1. 作用：向其所在的节点中渲染文本内容
- *  2. 与插值语法的区别：v-text 会替换掉节点中的内容，{{xx}} 则不会。
+ * Vue模板语法有2大类：
+ *  1. 插值语法：
+ *    功能：用于解析标签体内容。
+ *    写法：{{xxx}}，xxx是js表达式，且可以直接读取到data中的所有属性。
+ *  2. 指令语法：
+ *    功能：用于解析标签 (包括：标签属性、标签体内容、绑定事件......)。
+ *    举例：v-bind:href="xxx" 或 简写为 :href="xxx"，xxx同样要写js表达式，且可以直接读取到data中的所有属性。
+ *    备注：Vue中有很多的指令，且形式都是：v-？？？，此处我们只是拿v-bind举个例子。
  * 
- * v-html指令：
- *  1. 作用：向指定节点中渲染包含html结构的内容。
- *  2. 与插值语法的区别：
- *    (1). v-html 会替换掉节点中所有的内容，{{xxx}}不会。
- *    (2). v-html 可以识别html结构。
- *  3. ⚠️严重注意：v-html 有安全性问题！！！
- *    (1). 在网站上动态渲染任意HTML是非常危险的，容易导致XSS攻击。
- *    (2). 一定要在可信的内容上使用v-html，永不要用在用户提交的内容上！！！
+ * 自定义指令总结：
+ *  一、定义语法：
+ *    1. 局部指令：
+ *      (1).new Vue({
+ *            directives: {指令名: 配置对象}
+ *          })
+ *      (2). new Vue({
+ *            directives: {指令名: 回调函数}
+ *          })
  * 
- * v-cloak指令(没有值)：
- *  1. 本质是一个特殊属性，Vue实例创建完毕并接管容器后，会删掉v-cloak属性。
- *  2. 使用css配合v-cloak可以解决网速慢时页面展示出{{xxx}}的问题。
- * 
- * v-once指令(没有值)：
- *  1.v-once所在节点在初次动态渲染后，就视为静态内容了。
- *  2. 以后数据的改变不会引起v-once所在结构的更新，可以用于优化性能。
- * 
- * v-pre指令：
- *  1. 跳过其所在节点的编译过程。
- *  2. 可利用它跳过：没有使用指令的语法、没有使用插值语法的节点，会加快编译。
+ *    2. 全局指令：
+ *      Vue.directive(指令名, 配置对象) 或 Vue.directive(指令名, 回调函数)
+ *  
+ *  二、配置对象中常用的3个回调：
+ *    1. bind：指令与元素成功绑定时调用。
+ *    2. inserted：指令所在元素被插入页面时调用。
+ *    3. update：指令所在模板被重新解析时调用。
+ *    
+ *  三、备注：
+ *    1. 指令定义时不加v-，但使用时要加v-；
+ *    2. 指令名如果是多个单词，要使用kebab-case命名方式，不要用camelCase命名。
  */
 export default {
   name: "App",
   data() {
     return {
-      name: 'Goigio_Liu'
+      // name: 'Goigio_Liu',
+      n: 1,
     };
+  },
+  directives: {
+    big(element, binding) {
+      // big函数何时会被调用？1. 指令与元素成功绑定时(一上来)。2. 指令所在的模板被重新解析时
+      // console.log(this);
+      element.innerText = binding.value * 10
+    },
+    // fbind(element, binding) {
+    //   element.value = binding.value
+    //   element.focus()
+    // }
+    fbind: {
+      // 指令与元素成功绑定时(一上来)
+      bind(element, binding) {
+        // console.log('bind');
+        element.value = binding.value
+      },
+      // 指令所在元素被插入页面时
+      inserted(element, binding) {
+        console.log('inserted', binding);
+        element.focus()
+      },
+      // 指令所在的模板被重新解析时
+      update(element, binding) {
+        // console.log('update');
+        element.value = binding.value
+      }
+    }
   },
   computed: {},
   watch: {},
