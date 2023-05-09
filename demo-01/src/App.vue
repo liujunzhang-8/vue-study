@@ -1,44 +1,58 @@
 <template>
   <div id="app">
-    <h2>显示格式化后的时间</h2>
-    <h3>现在是： {{ fmtTime }}</h3>
+    <h2 v-if="a">你好啊</h2>
+    <h2 :style="{opacity}">欢迎学习Vuejs</h2>
   </div>
 </template>
 
 <script>
-// import Vue from 'vue';
 /**
- * v-text指令：
- *  1. 作用：向其所在的节点中渲染文本内容
- *  2. 与插值语法的区别：v-text 会替换掉节点中的内容，{{xx}} 则不会。
+ * 生命周期：
+ *  1. 又名：生命周期回调函数、生命周期函数、生命周期钩子。
+ *  2. 是什么：Vue在关键时刻帮我们调用的一些特殊名称的函数。
+ *  3. 生命周期函数的名字不可更改，但函数的具体内容是程序员根据需求编写的。
+ *  4. 生命周期函数中的this指向是vm或组件实例对象。
  * 
- * v-html指令：
- *  1. 作用：向指定节点中渲染包含html结构的内容。
- *  2. 与插值语法的区别：
- *    (1). v-html 会替换掉节点中所有的内容，{{xxx}}不会。
- *    (2). v-html 可以识别html结构。
- *  3. ⚠️严重注意：v-html 有安全性问题！！！
- *    (1). 在网站上动态渲染任意HTML是非常危险的，容易导致XSS攻击。
- *    (2). 一定要在可信的内容上使用v-html，永不要用在用户提交的内容上！！！
+ * 常用的生命周期钩子：
+ *  1. mounted：发送ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】。
+ *  2. beforeDestroy：清除定时器、解绑自定义事件、取消订阅消息等【收尾工作】。
+ * 
+ * 关于销毁Vue实例：
+ *  1. 销毁后借助Vue开发者工具看不到任何信息。
+ *  2. 销毁后自定义事件会失效，但原生DOM事件依然有效。
+ *  3. 一般不会在beforeDestroy操作数据，因为即便操作数据，也不会再触发更新流程了。
  */
 export default {
   name: "App",
   data() {
     return {
-      fmtTime: new Date()
+      a: false,
+      opacity: 1,
     };
   },
-  computed: {},
-  watch: {},
-  methods: {
-    // addSex() {
-    //   // Vue.set(this.student, 'sex', '男'),
-    //   this.$set(this.student, 'sex', '男')
-    // }
-    demo() {
-      console.log(this.userInfo);
-    },
+  beforeCreate() {
+    console.log('beforeCreate');
   },
+  created() {
+    console.log('created');
+  },
+  beforeMount() {
+    console.log('beforeMount');
+  },
+  // Vue完成模板的解析并把初始的真实DOM元素放入页面后(挂载完毕)调用mounted
+  mounted() {
+    console.log('mounted', this.$el);
+    setInterval(() => {
+      this.opacity -= 0.01
+      if(this.opacity <= 0) this.opacity = 1
+    }, 50) 
+  },
+  beforeDestroy() {
+    console.log('beforeDestroy');
+  },
+  destroyed() {
+    console.log('destroyed');
+  }
 };
 </script>
 
