@@ -4,31 +4,30 @@
  * @version: 
  * @Date: 2023-05-10 11:22:26
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-10 17:07:30
+ * @LastEditTime: 2023-05-10 11:41:38
 -->
 <template>
   <div id="app">
-    <VStudent name="李四" sex="女" :age="18" />
+    <singleSchool />
+    <hr />
+    <singleStudent />
   </div>
 </template>
 
 <script>
-import VStudent from './components/Student'
+import singleSchool from './components/School'
+import singleStudent from './components/Student'
+
 export default {
   name: "App",
   data() {
     return {
-      msg: '欢迎学习Vuejs'
     };
   },
   // 注册组件
   components: {
-    VStudent
-  },
-  methods: {
-    showDOM() {
-      console.log(this.$refs);
-    }
+    singleSchool,
+    singleStudent
   }
 };
 </script>
