@@ -1,57 +1,77 @@
 <template>
   <div id="app">
-    <h2 v-if="a">你好啊</h2>
-    <h2 :style="{opacity}">欢迎学习Vuejs</h2>
+    <school />
+    <hr />
+    <student />
   </div>
 </template>
 
 <script>
+import Vue from 'vue';
 /**
- * 生命周期：
- *  1. 又名：生命周期回调函数、生命周期函数、生命周期钩子。
- *  2. 是什么：Vue在关键时刻帮我们调用的一些特殊名称的函数。
- *  3. 生命周期函数的名字不可更改，但函数的具体内容是程序员根据需求编写的。
- *  4. 生命周期函数中的this指向是vm或组件实例对象。
+ * Vue 中使用组件的三大步骤：
+ *  一、定义组件(创建组件)
+ *  二、注册组件
+ *  三、使用组件(写组件标签)
  * 
- * 常用的生命周期钩子：
- *  1. mounted：发送ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】。
- *  2. beforeDestroy：清除定时器、解绑自定义事件、取消订阅消息等【收尾工作】。
+ * 一、如何定义一个组件？
+ *  使用Vue.extend(options)创建，其中options和new Vue(options)时传入的那个options几乎一样，但也有点区别：
+ *  区别如下：
+ *    1、el不要写，为什么？ ———— 最终所有的组件都要经过一个vm的管理，由vm中的el决定服务哪个容器。
+ *    2、data必须写成函数，为什么？ ———— 避免组件被复用时，数据存在引用关系。
+ *  备注：使用template可以配置组件结构。
  * 
- * 关于销毁Vue实例：
- *  1. 销毁后借助Vue开发者工具看不到任何信息。
- *  2. 销毁后自定义事件会失效，但原生DOM事件依然有效。
- *  3. 一般不会在beforeDestroy操作数据，因为即便操作数据，也不会再触发更新流程了。
+ * 二、如何注册组件？
+ *  1、局部注册：靠new Vue的时候传入components选项
+ *  2、全局注册：靠Vue.component('组件名', 组件)
+ * 
+ * 三、编写组件标签：
+ *  <school />
  */
+// 第一步创建school组件
+const school = Vue.extend({
+  template: `
+    <div>
+      <h2>学校名称：{{ schoolName }}</h2>
+      <h2>学校地址：{{ address }}</h2>
+    </div>
+  `,
+  data() {
+    return {
+      schoolName: '你大爷',
+      address: '上海宝山',
+    }
+  }
+})
+
+// 第二步创建student组件
+const student = Vue.extend({
+  template: `
+    <div>
+      <h2>学生名称：{{ studentName }}</h2>
+      <h2>学生年龄：{{ age }}</h2>
+    </div>
+  `,
+  data() {
+    return {
+      studentName: 'Grogio_Liu',
+      age: 18
+    };
+  },
+})
 export default {
   name: "App",
   data() {
     return {
-      a: false,
-      opacity: 1,
+      // schoolName: '你大爷',
+      // address: '上海宝山',
+      // studentName: 'Grogio_Liu',
+      // age: 18
     };
   },
-  beforeCreate() {
-    console.log('beforeCreate');
-  },
-  created() {
-    console.log('created');
-  },
-  beforeMount() {
-    console.log('beforeMount');
-  },
-  // Vue完成模板的解析并把初始的真实DOM元素放入页面后(挂载完毕)调用mounted
-  mounted() {
-    console.log('mounted', this.$el);
-    setInterval(() => {
-      this.opacity -= 0.01
-      if(this.opacity <= 0) this.opacity = 1
-    }, 50) 
-  },
-  beforeDestroy() {
-    console.log('beforeDestroy');
-  },
-  destroyed() {
-    console.log('destroyed');
+  components: {
+    school,
+    student
   }
 };
 </script>
