@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <School />
+    <singleSchool />
     <hr />
-    <Hello />
+    <singleStudent />
   </div>
 </template>
 
 <script>
-import Vue from 'vue';
+// import Vue from 'vue';
+import singleSchool from './components/School'
+import singleStudent from './components/Student'
 /**
  * Vue 中使用组件的三大步骤：
  *  一、定义组件(创建组件)
@@ -63,70 +65,30 @@ import Vue from 'vue';
  * 1. 一个重要的内置关系：VueComponent.prototype.__proto__ === Vue.prototype
  * 2. 为什么要有这个关系：让组件实例对象(vc) 可以访问到 Vue 原型上的属性、方法。
  */
-// 第二步创建student组件
-const Student = Vue.extend({
-  template: `
-    <div>
-      <h2>学生名称：{{ studentName }}</h2>
-      <h2>学生年龄：{{ age }}</h2>
-    </div>
-  `,
-  data() {
-    return {
-      studentName: 'Grogio_Liu',
-      age: 28
-    };
-  },
-})
 
-// 第一步创建school组件
-const School = Vue.extend({
-  template: `
-    <div>
-      <h2>学校名称：{{ schoolName }}</h2>
-      <h2>学校地址：{{ address }}</h2>
-      <Student />
-    </div>
-  `,
-  data() {
-    return {
-      schoolName: '你大爷',
-      address: '上海宝山',
-    }
-  },
-  components: {
-    Student
-  }
-})
-
-const Hello = Vue.extend({
-  template: `
-    <div>
-      <h2>Welcome to study {{name}}</h2>
-    </div>
-  `,
-  data() {
-    return {
-      name: 'Vuejs',
-    }
-  },
-})
+// const Hello = Vue.extend({
+//   template: `
+//     <div>
+//       <h2>Welcome to study {{name}}</h2>
+//     </div>
+//   `,
+//   data() {
+//     return {
+//       name: 'Vuejs',
+//     }
+//   },
+// })
 
 export default {
   name: "App",
   data() {
     return {
-      // schoolName: '你大爷',
-      // address: '上海宝山',
-      // studentName: 'Grogio_Liu',
-      // age: 18
     };
   },
   // 注册组件
   components: {
-    School,
-    Hello
-    // Student
+    singleSchool,
+    singleStudent
   }
 };
 </script>
