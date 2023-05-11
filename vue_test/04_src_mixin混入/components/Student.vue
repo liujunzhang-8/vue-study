@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 16:05:50
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-11 08:13:13
+ * @LastEditTime: 2023-05-11 07:59:17
 -->
 <template>
   <div class="school">
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import {hunhe} from '../mixin'
 export default {
   name: "VStudent",
   data() {
@@ -26,10 +27,11 @@ export default {
       // age: 28
     }
   },
+  mixins: [hunhe],
   methods: {
-    showName() {
-      console.log(this.name);
-    }
+    // showName() {
+    //   console.log(this.name);
+    // }
   }
 }
 </script>

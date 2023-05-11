@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-10 17:34:24
+ * @LastEditTime: 2023-05-11 08:27:21
 -->
 # 笔记
 
@@ -41,4 +41,38 @@
           }
         }
       备注：props是只读的，Vue底层会监测你对props的修改，如果进行了修改，就会发出警告，若业务需求确实需要
-      修改，那么请复制props的内容到data中一份，然后去修改data中的数据。
+      修改，那么请复制props的内容到data中一份，然后去修改data中的数据。## 
+
+## mixin(混入)
+  功能：可以把多个组件共用的配置提取成一个混合对象
+  使用方式：
+    第一步定义混合，例如：
+      {
+        data() {...},
+        methods: {...}
+        ...
+      }
+    第二步使用混入，例如：
+      (1). 全局混入：Vue.mixin(xxx)
+      (2). 局部混入：mixins: ['xxx']
+
+## 插件
+  功能：用于增强Vue
+  本质：包含install方法的一个对象，install的第一个参数是Vue，第二个以后的参数是插件使用者传递的数据。
+  定义插件：
+    对象.install = function (Vue, options) {
+      // 1. 添加全局过滤器
+      Vue.filter(...)
+
+      // 2. 添加全局指令
+      Vue.directive(...)
+
+      // 3. 配置全局混入(合)
+      Vue.mixin(...)
+
+      // 4. 添加实例方法
+      Vue.prototype.$myMethod = function () {...}
+      Vue.prototype.$myProperty = xxx
+    }
+
+  使用插件：Vue.use()
