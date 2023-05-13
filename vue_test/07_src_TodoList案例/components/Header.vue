@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-11 09:24:20
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-12 21:31:50
+ * @LastEditTime: 2023-05-12 00:27:56
 -->
 <template>
   <div class="todo-header">
@@ -34,7 +34,7 @@ export default {
   methods: {
     add(e) {
       // 校验数据
-      if(!e.target.value) return alert('输入不能为空！！！')
+      if(!this.title) return alert('输入不能为空！！！')
       // 将用户的输入包装成一个todo对象
       const todoObj = {id: nanoid(), title: e.target.value, done: false}
       this.addTodo(todoObj)

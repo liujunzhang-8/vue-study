@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:26
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-12 21:38:22
+ * @LastEditTime: 2023-05-12 00:47:13
 -->
 <template>
   <div id="app">
@@ -26,7 +26,11 @@ export default {
   name: "App",
   data() {
     return {
-      todos: JSON.parse(localStorage.getItem('todos')) || []
+      todos: [
+        {id: '001', title: '抽烟', done: true},
+        {id: '002', title: '喝酒', done: false},
+        {id: '003', title: '泡妞', done: true},
+      ]
     };
   },
   // 注册组件
@@ -61,11 +65,6 @@ export default {
       this.todos = this.todos.filter(todo => {
         return !todo.done
       })
-    }
-  },
-  watch: {
-    todos(value) {
-      localStorage.setItem('todos', JSON.stringify(value))
     }
   }
 };
