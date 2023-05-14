@@ -4,43 +4,79 @@
  * @version: 
  * @Date: 2023-05-10 11:22:26
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-14 10:07:44
+ * @LastEditTime: 2023-05-14 11:06:15
 -->
 <template>
   <div id="app">
-    <VStudent ref="student" @click.native="show"/>
-    <VSchool :getSchoolName="getSchoolName" />
+    <div class="todo-container">
+      <div class="todo-wrap">
+        <Header @addTodo="addTodo" />
+        <List :todos="todos" />
+        <Footer :todos="todos" @checkAllTodo="checkAllTodo" @clearAllTodo="clearAllTodo" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import VStudent from './components/Student'
-import VSchool from './components/School'
+import Header from './components/Header.vue';
+import List from './components/List.vue';
+import Footer from './components/Footer.vue';
 export default {
   name: "App",
   data() {
     return {
-      msg: '欢迎学习Vuejs'
+      todos: JSON.parse(localStorage.getItem('todos')) || []
     };
   },
   // 注册组件
   components: {
-    VStudent,
-    VSchool
+    Header,
+    List,
+    Footer
   },
   methods: {
-    getSchoolName(name) {
-      console.log('App收到了学校名', name);
+    // 添加一个todo
+    addTodo(todoObj) {
+      this.todos.unshift(todoObj)
     },
-    getStudentName(name) {
-      console.log('demo被调用了！', name);
+    // 勾选 or 取消勾选一个todo
+    checkTodo(id) {
+      this.todos.forEach(todo => {
+        if(todo.id === id) todo.done = !todo.done
+      })
     },
-    show() {
-      console.log('这里触发了');
+    // 删除一个todo
+    deleteTodo(id) {
+      this.todos = this.todos.filter(todo => {
+        return todo.id !== id
+      })
+    },
+    // 全选or取消全选
+    checkAllTodo(done) {
+      this.todos.forEach(todo => {
+        todo.done = done
+      }) 
+    },
+    // 清除所有已经完成的todo
+    clearAllTodo() {
+      this.todos = this.todos.filter(todo => {
+        return !todo.done
+      })
+    }
+  },
+  watch: {
+    todos(value) {
+      localStorage.setItem('todos', JSON.stringify(value))
     }
   },
   mounted() {
-    this.$refs.student.$on('china', this.getStudentName)
+    this.$bus.$on('checkTodo', this.checkTodo)
+    this.$bus.$on('deleteTodo', this.deleteTodo)
+  },
+  beforeDestroy() {
+    this.$bus.$off('checkTodo')
+    this.$bus.$off('deleteTodo')
   }
 };
 </script>
@@ -53,6 +89,43 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+body {
+  background: #fff;
+}
+.btn {
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.btn-danger {
+  color: #fff;
+  background-color: #da4f49;
+  border: 1px solid #bd362f;
+}
+.btn-danger:hover {
+  color: #fff;
+  background-color: #bd362f;
+}
+.btn:focus {
+  outline: none;
+}
+
+.todo-container {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.todo-container .todo-wrap {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 </style>
 
