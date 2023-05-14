@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:26
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-14 12:01:52
+ * @LastEditTime: 2023-05-14 12:28:05
 -->
 <template>
   <div id="app">
@@ -64,7 +64,13 @@ export default {
       this.todos = this.todos.filter(todo => {
         return !todo.done
       })
-    }
+    },
+    // 更新todo
+    updateTodo(id, title) {
+      this.todos.forEach(todo => {
+        if(todo.id === id) todo.title = title
+      })
+    },
   },
   watch: {
     todos(value) {
@@ -73,11 +79,13 @@ export default {
   },
   mounted() {
     this.$bus.$on('checkTodo', this.checkTodo)
+    this.$bus.$on('updateTodo', this.updateTodo)
     // this.$bus.$on('deleteTodo', this.deleteTodo)
     this.pubId = pubsub.subscribe('deleteTodo', this.deleteTodo)
   },
   beforeDestroy() {
     this.$bus.$off('checkTodo')
+    this.$bus.$off('updateTodo')
     // this.$bus.$off('deleteTodo')
     pubsub.unsubscribe(this.pubId)
   }
