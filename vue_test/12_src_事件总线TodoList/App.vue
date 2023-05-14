@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:26
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-14 12:01:52
+ * @LastEditTime: 2023-05-14 11:06:15
 -->
 <template>
   <div id="app">
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import pubsub from 'pubsub-js'
 import Header from './components/Header.vue';
 import List from './components/List.vue';
 import Footer from './components/Footer.vue';
@@ -48,7 +47,7 @@ export default {
       })
     },
     // 删除一个todo
-    deleteTodo(_,id) {
+    deleteTodo(id) {
       this.todos = this.todos.filter(todo => {
         return todo.id !== id
       })
@@ -73,13 +72,11 @@ export default {
   },
   mounted() {
     this.$bus.$on('checkTodo', this.checkTodo)
-    // this.$bus.$on('deleteTodo', this.deleteTodo)
-    this.pubId = pubsub.subscribe('deleteTodo', this.deleteTodo)
+    this.$bus.$on('deleteTodo', this.deleteTodo)
   },
   beforeDestroy() {
     this.$bus.$off('checkTodo')
-    // this.$bus.$off('deleteTodo')
-    pubsub.unsubscribe(this.pubId)
+    this.$bus.$off('deleteTodo')
   }
 };
 </script>
@@ -111,12 +108,6 @@ body {
   color: #fff;
   background-color: #da4f49;
   border: 1px solid #bd362f;
-}
-.btn-edit {
-  color: #fff;
-  background-color: skyblue;
-  border: 1px solid rgb(103, 159, 180);
-  margin-right: 5px;
 }
 .btn-danger:hover {
   color: #fff;

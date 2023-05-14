@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-11 09:24:20
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-14 11:59:52
+ * @LastEditTime: 2023-05-14 10:55:48
 -->
 <template>
   <li>
@@ -15,12 +15,10 @@
       <span>{{todo.title}}</span>
     </label>
     <button class="btn btn-danger" @click="handleDelete(todo.id)">删除</button>
-    <button class="btn btn-edit">编辑</button>
   </li>
 </template>
 
 <script>
-import pubsub from 'pubsub-js'
 export default {
   name: "VItem",
   props: ['todo'],
@@ -38,8 +36,7 @@ export default {
     handleDelete(id) {
       if(confirm('确定删除吗？')) {
         // this.deleteTodo(id)
-        // this.$bus.$emit('deleteTodo', id)
-        pubsub.publish('deleteTodo', id)
+        this.$bus.$emit('deleteTodo', id)
       }
     }
   },
