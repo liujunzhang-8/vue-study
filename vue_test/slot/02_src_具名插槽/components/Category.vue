@@ -4,13 +4,18 @@
  * @version: 
  * @Date: 2023-05-16 17:14:48
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-16 18:30:32
+ * @LastEditTime: 2023-05-16 18:02:22
 -->
 <template>
   <div class="category">
     <h3>{{title}}分类</h3>
     <!-- 定义一个插槽（挖个坑，等着组件的使用者进行填充） -->
-    <slot :games="games">默认值</slot>
+    <slot name="center">默认值</slot>
+    <slot name="footer">底部默认值</slot>
+    <!-- <ul>
+      <li v-for="(item, index) in listData" :key="index">{{item}}</li>
+    </ul> -->
+    <!-- <img src="https://s3.ax1x.com/2021/01/16/srJlq0.jpg" alt=""> -->
   </div>
 </template>
 
@@ -20,7 +25,7 @@ export default {
   props: ['title'],
   data () {
     return {
-      games: ["红色警戒", "穿越火线", "劲舞团", "超级玛丽"],
+
     }
   },
 }
