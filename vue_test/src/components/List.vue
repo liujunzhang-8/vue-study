@@ -4,56 +4,71 @@
  * @version: 
  * @Date: 2023-05-11 09:24:20
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-14 10:55:29
+ * @LastEditTime: 2023-05-15 12:10:08
 -->
 <template>
-  <ul class='todo-main'>
-    <Item v-for="todoObj in todos" :key="todoObj.id" :todo="todoObj" />
-  </ul>
+  <div class="row">
+    <!-- 展示用户列表 -->
+    <div v-show="info.users.length" class="card" v-for="user in info.users" :key="user.login">
+      <a :href="user.html_url" target="block">
+        <img :src="user.avatar_url" style="width: 100px" alt="">
+      </a>
+      <p class="card-text">{{user.login}}</p>
+    </div>
+    <!-- 展示欢迎词 -->
+    <h1 v-show="info.isFirst">欢迎使用！！！</h1>
+    <!-- 展示加载中 -->
+    <h1 v-show="info.isLoading">加载中...</h1>
+    <!-- 展示错误信息 -->
+    <h1 v-show="info.errMsg">{{ info.errMsg }}</h1>
+  </div>
 </template>
 
 <script>
-import Item from './Item'
 export default {
   name: 'VList',
-  props: ['todos'],
   data () {
     return {
-      
+      info: {
+        isFirst: true,
+        isLoading: false,
+        errMsg: '',
+        users: []
+      }
     }
   },
-  components: {
-    Item,
-  },
-
-  created () {
-
-  },
-
-  computed: {},
-
-  mounted () {},
-
-  methods: {
-
-  },
+  mounted() {
+    this.$bus.$on('updateListData', (dataObj) => {
+      console.log('List组件，收到数据：', dataObj);
+      this.info = {...this.info, ...dataObj}
+    })
+  }
 }
 
 </script>
 <style scoped>
-.todo-main {
-  margin-left: 0px;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  padding: 0px;
+.album {
+  min-height: 50rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #f7f7f7;
 }
 
-.todo-empty {
-  height: 40px;
-  line-height: 40px;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  padding-left: 5px;
-  margin-top: 10px;
+.card {
+  float: left;
+  width: 33.333%;
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 1px solid #efefef;
+  text-align: center;
+}
+
+.card > img {
+  margin-bottom: .75rem;
+  border-radius: 100px;
+}
+
+.card-text {
+  font-size: 85%;
 }
 </style>
