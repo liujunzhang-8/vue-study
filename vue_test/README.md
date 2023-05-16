@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-15 09:25:17
+ * @LastEditTime: 2023-05-15 10:43:33
 -->
 # 笔记
 
@@ -233,3 +233,55 @@
         </transition>
       ```
     (3). 备注：若有多个元素需要过渡，则需要使用：<transition-group></transition-group>，且每个元素都要指定`key`值
+
+## vue脚手架配置代理
+
+### 方法一
+  在vue.config.js中添加如下配置：
+  
+  ```javascript
+    devServer: {
+      proxy: "http://localhost:5000"
+    }
+  ```
+
+  说明：
+    1. 优点：配置简单，请求资源时直接发给前端(8080)即可。
+    2. 缺点：不能配置多个代理，不能灵活的控制请求是否走代理。
+    3. 工作方式：若按照上述配置代理，当请求了前端不存在的资源时，那么该请求会转发给服务器(优先匹配前端资源)
+
+### 方式二
+  编写vue.config.js配置具体代理规则：
+  
+  ```javascript
+    module.exports = {
+      devServer: {
+        proxy: {
+          '/api': { // 匹配所有以 '/api' 开头的请求路径
+            target: 'http://localhost:5000', // 代理目标的基础路径
+            pathRewrite: {'^/api': ''},
+            // ws: true, // 用于支持websocket
+            changeOrigin: true
+          }
+        }，
+        proxy: {
+          '/api2': { // 匹配所有以 '/api2' 开头的请求路径
+            target: 'http://localhost:5000', // 代理目标的基础路径
+            pathRewrite: {'^/api2': ''},
+            // ws: true, // 用于支持websocket
+            changeOrigin: true
+          }
+        }，
+      } 
+    }
+
+    /**
+     * changeOrigin 设置为 true时，服务器收到的请求头中的host为：localhost:5000
+     * changeOrigin 设置为 false时，服务器收到的请求头中的host为：localhost:8080
+     * changeOrigin 默认设置为 true
+     */
+  ```
+
+  说明：
+    1. 优点：可以配置多个代理，且可以灵活的控制请求是否走代理。
+    2. 缺点：配置略微繁琐，请求资源时必须加前缀。
