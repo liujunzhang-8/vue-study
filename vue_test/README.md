@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-17 17:19:23
+ * @LastEditTime: 2023-05-17 19:23:03
 -->
 # 笔记
 
@@ -417,3 +417,97 @@ new Vue({
   store
 }).$mount('#app')
 ```
+
+4. 基本使用
+
+  (1). 初始化数据、配置`actions`、配置`mutations`、操作文件`store.js`
+```javascript
+import Vue from 'vue'
+// 引入vuex
+import Vuex from 'vuex'
+
+// 使用插件
+Vue.use(Vuex)
+
+const actions = {
+  jia(context, value) {
+    context.commit('JIA', value)
+  }
+}
+
+// 准备mutations —— 用于操作数据 (state)
+const mutations = {
+  JIA(state, value) {
+    state.sum += value
+  }
+}
+
+// 准备state —— 用于存储数据
+
+const state = {
+  sum: 0, // 当前的和
+}
+
+// 创建store并导出store
+export default new Vuex.Store({
+  actions,
+  mutations,
+  state 
+})
+```
+
+  (2). 组件中读取vuex中的数据：`$store.state.sum`
+  (3). 组件中修改vuex中的数据：`$store.dispatch('action中的方法名', 数据)` 或 `$store.commit('mutations中的方法名', 数据)`
+
+  备注：若没有网络请求或其它业务逻辑，组件中也可以越过actions，即不写`dispatch`，直接编写`commit`
+
+
+5. 四个map方法的使用
+
+  (1). mapState方法：用于帮助我们映射`state`中的数据为计算属性
+
+  ```javascript
+    computed: {
+      // 借助mapState生成计算属性，从state中读取数据。（对象写法）
+      ...mapState({sum:'sum', school: 'school', subject: 'subject'}),
+
+      // 借助mapState生成计算属性，从state中读取数据。（数组写法）
+      ...mapState(['sum', 'school', 'subject']),
+    }
+  ```
+
+  (2). mapGetters方法：用于帮助我们映射`getters`中的数据为计算属性
+
+  ```javascript
+    computed: {
+      // 借助mapGetters生成计算属性，bigSum (对象写法)
+      ...mapGetters({bigSum: 'bigSum'}),
+
+      // 借助mapGetters生成计算属性，bigSum (数组写法)
+      ...mapGetters(['bigSum']),
+    }
+  ```
+
+  (3). mapActions方法：用于帮助我们生成与`actions`对话的方法，即：包含`$store.dispatch(xxx)`的函数
+  ```javascript
+    methods: {
+      // 靠mapActions生成，incrementOdd、incrementWait (对象形式)
+      ...mapActions({incrementOdd: 'jiaOdd', incrementWait: 'jiaWait'}),
+
+      // 靠mapActions生成，incrementOdd、incrementWait (数组形式)
+      ...mapActions(['jiaOdd', 'jiaWait']),
+    }
+  ```
+
+  (4). mapMutations方法：用于帮助我们生成与`mutations`对话的方法，即：包含`$store.commit(xxx)`的函数
+  ```javascript
+    methods: {
+      // 靠mapMutations生成，increment、decrement (对象形式)
+      ...mapMutations({increment: 'JIA', decrement: 'JIAN'}),
+
+      // 靠mmapMutations生成，JIA、JIAN (数组形式)
+      ...mapMutations(['JIA', 'JIAN']),
+    }
+  ```
+
+  备注：mapActions 与 mapMutations 使用时，若需要传递参数需要：在模板中绑定事件时传递好参数，否则参数是事件对象
