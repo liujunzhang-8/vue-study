@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 18:07:30
+ * @LastEditTime: 2023-05-18 18:51:46
 -->
 # 笔记
 
@@ -763,3 +763,28 @@ export default new Vuex.Store({
   (2). 具体名字：
     `activated` 路由组件被激活时触发。
     `deactivated` 路由组件失活时触发。
+
+12. 路由守卫
+
+  (1). 作用：对路由进行权限控制
+  (2). 分类：全局守卫、独享守卫、组件内守卫
+  (3). 全局守卫：
+  ```javascript
+    // 全局前置路由守卫 —— 初始化的时候被调用、每次路由切换之前被调用
+    router.beforeEach((to, from, next) => {
+      if(to.meta.isAuth) { // 判断是否需要鉴权
+        if(localStorage.getItem('school') === 'daxue2') {
+          next()
+        } else {
+          alert('学校名不对，无权限查看！')
+        }
+      } else {
+        next()
+      }
+    })
+
+    // 全局后置路由守卫 —— 初始化的时候被调用、每次路由切换之前被调用
+    router.afterEach((to, from) => {
+      document.title = to.meta.title || 'vue系统'
+    })
+  ```
