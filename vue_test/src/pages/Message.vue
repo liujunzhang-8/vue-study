@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-17 22:29:44
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 16:59:03
+ * @LastEditTime: 2023-05-18 17:27:10
 -->
 <template>
   <div>
@@ -25,6 +25,8 @@
         >
           {{ m.title }} </router-link
         >&nbsp;&nbsp;
+        <button @click="pushShow(m)">push查看</button>&nbsp;&nbsp;
+        <button @click="replaceShow(m)">replace查看</button>
       </li>
     </ul>
     <hr />
@@ -51,7 +53,26 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    pushShow(m) {
+      this.$router.push({
+        name: '详情', // 必须使用name，不可以使用path
+        query: {
+          id: m.id,
+          title: m.title,
+        },
+      })
+    },
+    replaceShow(m) {
+      this.$router.replace({
+        name: '详情', // 必须使用name，不可以使用path
+        query: {
+          id: m.id,
+          title: m.title,
+        },
+      })
+    }
+  },
 };
 </script>
 <style lang='less' scoped>
