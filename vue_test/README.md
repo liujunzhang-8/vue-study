@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-17 22:21:20
+ * @LastEditTime: 2023-05-18 16:15:38
 -->
 # 笔记
 
@@ -590,3 +590,28 @@ export default new Vuex.Store({
   (2). 通过切换，“隐藏”了路由组件，默认是被销毁掉的，需要的时候再去挂载。
   (3). 每个组件都有自己的`$route`属性，里面存储着自己的路由信息。
   (4). 整个应用只有一个router，可以通过组件的`$router`属性获取到。
+
+4. 路由的query参数
+
+  (1). 传递参数
+  ```javascript
+      <!-- 跳转路由并携带query参数，to的字符串写法 -->
+      <router-link :to="`/home/message/detail?id=666&title='你好'`">跳转</router-link>
+
+      <!-- 跳转路由并携带query参数，to的对象写法 -->
+        <router-link
+          :to="{
+            path: '/home/message/detail',
+            query: {
+              id: 666,
+              title: '你好',
+            },
+          }"
+        >跳转</router-link>
+  ```
+
+  (2). 接收参数：
+  ```javascript
+    $route.query.id
+    $route.query.title
+  ```
