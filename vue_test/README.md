@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 18:51:46
+ * @LastEditTime: 2023-05-18 22:21:24
 -->
 # 笔记
 
@@ -801,4 +801,14 @@ export default new Vuex.Store({
         next()
       }
     }
+  ```
+  (5). 组件内守卫：
+  ```javascript
+  // 进入守卫：通过路由规则，进入该组件时被调用
+  beforeRouteEnter(to, from, next) {
+  },
+
+  // 离开守卫：通过路由规则，离开该组件时被调用
+  beforeRouteLeave(to, from, next) {
+  }
   ```
