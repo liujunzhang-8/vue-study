@@ -10,7 +10,6 @@ import Detail from '../pages/Detail'
 export default new VueRouter({
   routes: [
     {
-      name: '关于',
       path: '/about',
       component: About
     },
@@ -27,8 +26,7 @@ export default new VueRouter({
           component: Message,
           children: [
             {
-              name: '详情',
-              path: 'detail/:id/:title',
+              path: 'detail',
               component: Detail,
             }
           ]
