@@ -2,22 +2,23 @@
  * @Descripttion: 
  * @Author: Gorgio.Liu
  * @version: 
- * @Date: 2023-05-18 15:57:18
+ * @Date: 2023-05-17 22:05:13
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 16:32:18
+ * @LastEditTime: 2023-05-17 22:06:54
 -->
 <template>
-  <div>
-    <ul>
-      <li>消息编号：{{ $route.params.id }}</li>
-      <li>消息标题：{{ $route.params.title }}</li>
-    </ul>
+  <div class='page-frame'>
+    <div class="col-offset-2 col-8">
+        <div class="page-header">
+          <h2>Vue Router Demo</h2>
+        </div>
+      </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "VDetail",
+  name: 'VBanner',
   data () {
     return {
 
@@ -30,9 +31,7 @@ export default {
 
   computed: {},
 
-  mounted () {
-    console.log(this.$route);
-  },
+  mounted () {},
 
   methods: {
 

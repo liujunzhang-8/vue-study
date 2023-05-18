@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 16:15:38
+ * @LastEditTime: 2023-05-18 16:41:20
 -->
 # 笔记
 
@@ -614,4 +614,101 @@ export default new Vuex.Store({
   ```javascript
     $route.query.id
     $route.query.title
+  ```
+
+5. 命名路由
+
+  (1). 作用：可以简化路由的跳转。
+
+  (2). 如何使用
+  给路由命名：
+  ```javascript
+    {
+      path: '/demo',
+      component: Demo,
+      children: [
+        {
+          path: 'test',
+          component: Test,
+          children: [
+            {
+              name: 'hello' // 给路由命名
+              path: 'welcome',
+              component: Hello,
+            }
+          ]
+        }
+      ]
+    }
+  ```
+
+  简化跳转：
+  ```javascript
+    <!-- 简化前需要写完整的路径 -->
+    <router-link to="/demo/test/welcome">跳转</router-link>
+
+    <!-- 简化后，直接通过名字跳转 -->
+    <router-link :to="{name: 'hello'}">跳转</router-link>
+
+    <!-- 简化写法配合传递参数 -->
+    <router-link :to="{
+      name: 'hello',
+      query: {
+        id: 666,
+        title: '你好'
+      }
+    }">跳转</router-link>
+  ```
+
+6. 路由的params参数
+
+  (1). 配置路由，声明接收params参数
+  ```javascript
+    {
+      path: '/home',
+      component: Home,
+      children: [
+        {
+          path: 'news',
+          component: News,
+        },
+        {
+          path: 'message',
+          component: Message,
+          children: [
+            {
+              name: '详情',
+              path: 'detail/:id/:title',
+              component: Detail,
+            }
+          ]
+        },
+      ]
+    },
+  ```
+
+  (2). 传递参数
+  ```javascript
+    <!-- 跳转路由并携带params参数，to的字符串写法 -->
+    <router-link :to="`/home/message/detail/${m.id}/${m.title}`">{{m.title}}</router-link>
+
+    <!-- 跳转路由并携带params参数，to的对象写法 -->
+    <router-link
+      :to="{
+        name: '详情', // 必须使用name，不可以使用path
+        params: {
+          id: m.id,
+          title: m.title,
+        },
+      }"
+    >
+      {{ m.title }} </router-link>
+  ```
+
+  特别注意：路由携带params参数时，若使用to的对象写法，则不能使用path配置项，必须使用name配置！
+
+  (3). 接收参数：
+  ```javascript
+    $route.params.id
+    $route.params.title
   ```
