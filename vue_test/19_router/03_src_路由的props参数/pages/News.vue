@@ -2,23 +2,23 @@
  * @Descripttion: 
  * @Author: Gorgio.Liu
  * @version: 
- * @Date: 2023-05-18 15:57:18
+ * @Date: 2023-05-17 22:29:44
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 16:50:52
+ * @LastEditTime: 2023-05-17 22:41:59
 -->
 <template>
   <div>
     <ul>
-      <li>消息编号：{{ id }}</li>
-      <li>消息标题：{{ title }}</li>
+      <li>news001</li>
+      <li>news002</li>
+      <li>news003</li>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: "VDetail",
-  props: ['id', 'title'],
+  name: "VNews",
   data () {
     return {
 
@@ -31,9 +31,7 @@ export default {
 
   computed: {},
 
-  mounted () {
-    console.log(this.$route);
-  },
+  mounted () {},
 
   methods: {
 
