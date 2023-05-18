@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 16:41:20
+ * @LastEditTime: 2023-05-18 17:41:56
 -->
 # 笔记
 
@@ -711,4 +711,38 @@ export default new Vuex.Store({
   ```javascript
     $route.params.id
     $route.params.title
+  ```
+
+7. 路由的props配置
+
+8. <router-link>的replace属性
+
+  (1). 作用：控制路由跳转时操作浏览器历史记录的模式
+  (2). 浏览器的历史记录有两种写入方式：分别为`push`和`replace`，`push`是追加历史记录，`replace`是替换当前记录。路由跳转时默认为`push`
+  (3). 如何开启`replace`模式：<router-link replace ...>News</router-link>
+
+9. 编程式路由导航
+  (1). 作用：不借助<router-link></router-link>实现路由跳转，让路由跳转更加灵活。
+  (2). 具体编码：
+  ```javascript
+    <!-- $router 的两个API -->
+    this.$router.push({
+      name: 'xiangqing',
+      params: {
+        id: xxx,
+        title: xxx
+      }
+    })
+
+    this.$router.replace({
+      name: 'xiangqing',
+      params: {
+        id: xxx,
+        title: xxx
+      }
+    })
+
+    this.$router.back() // 后退
+    this.$router.forward() // 前进
+    this.$router.go(3) // 可前进也可后退
   ```
