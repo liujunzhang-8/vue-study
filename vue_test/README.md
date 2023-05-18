@@ -788,3 +788,17 @@ export default new Vuex.Store({
       document.title = to.meta.title || 'vue系统'
     })
   ```
+  (4). 独享守卫：
+  ```javascript
+    beforeEnter: (to, from, next) => {
+      if (to.meta.isAuth) { // 判断是否需要鉴权
+        if (localStorage.getItem('school') === 'daxue2') {
+          next()
+        } else {
+          alert('学校名不对，无权限查看！')
+        }
+      } else {
+        next()
+      }
+    }
+  ```
