@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:29
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-17 20:56:43
+ * @LastEditTime: 2023-05-17 22:21:20
 -->
 # 笔记
 
@@ -580,3 +580,13 @@ export default new Vuex.Store({
     <!-- 方式二：借助mapMutations读取 -->
     ...mapMutations('countAbout', {increment: 'JIA', decrement: 'JIAN'})
   ```
+
+## 路由
+
+1. 基本使用
+
+2. 几个注意点：
+  (1). 路由组件通常存放在`pages`文件夹，一般组件通常存放在`components`文件夹。
+  (2). 通过切换，“隐藏”了路由组件，默认是被销毁掉的，需要的时候再去挂载。
+  (3). 每个组件都有自己的`$route`属性，里面存储着自己的路由信息。
+  (4). 整个应用只有一个router，可以通过组件的`$router`属性获取到。
