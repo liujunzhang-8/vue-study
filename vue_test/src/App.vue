@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-10 11:22:26
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-18 17:32:56
+ * @LastEditTime: 2023-05-18 23:05:50
 -->
 <template>
   <div id="app">
@@ -18,9 +18,13 @@
           <!-- <a href="" class="list-group-item active">About</a>
           <a href="" class="list-group-item">Home</a> -->
 
-            <!-- router-link实现路由的切换 -->
-          <router-link to="/about" active-class="active" class="list-group-item">About</router-link>
-          <router-link to="/home" active-class="active" class="list-group-item">Home</router-link>
+          <!-- router-link实现路由的切换 -->
+          <router-link to="/about" active-class="active" class="list-group-item"
+            >About</router-link
+          >
+          <router-link to="/home" active-class="active" class="list-group-item"
+            >Home</router-link
+          >
         </div>
       </div>
       <div class="col-6">
@@ -34,26 +38,32 @@
         </div>
       </div>
     </div>
+    <hr />
+    <el-row>
+      <el-button>默认按钮</el-button>
+      <el-button type="primary">主要按钮</el-button>
+      <el-button type="success">成功按钮</el-button>
+      <el-button type="info">信息按钮</el-button>
+      <el-button type="warning">警告按钮</el-button>
+      <el-button type="danger">危险按钮</el-button>
+    </el-row>
   </div>
 </template>
 
 <script>
-import VBanner from "./components/banner"
+import VBanner from "./components/banner";
 export default {
   name: "App",
   data() {
-    return {
-      
-    };
+    return {};
   },
   // 注册组件
   components: {
-    VBanner
-},
+    VBanner,
+  },
 };
 </script>
 
 <style>
-
 </style>
 
