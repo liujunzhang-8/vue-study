@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-19 16:23:46
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-21 21:33:50
+ * @LastEditTime: 2023-05-21 21:51:59
 -->
 # vue3_test
 
@@ -101,6 +101,14 @@
   (2). 两个小“坑”：
     1. 监视reactive定义的响应式数据时：oldValue无法正确获取、强制开启了深度监视(deep配置失效)。
     2. 监视reactive定义的响应式数据中某个属性时：deep配置有效。
+
+3. watchEffect 函数
+
+  (1). watch的套路是：既要指明监视的属性，也要指明监视的回调
+  (2). watchEffect的套路是：不用指明监视哪个属性，监视的回调中用到哪个属性，那就监视哪个属性。
+  (3). watchEffect 有点像computed：
+    1. 但computed注重的计算出来的值(回调函数的返回值)，所以必须要写返回值。
+    2. 而watchEffect更注重的是过程(回调函数的函数体)，所以不用写返回值。
 
   
 
