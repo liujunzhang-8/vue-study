@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-19 16:23:46
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-21 21:51:59
+ * @LastEditTime: 2023-05-21 22:51:29
 -->
 # vue3_test
 
@@ -109,6 +109,21 @@
   (3). watchEffect 有点像computed：
     1. 但computed注重的计算出来的值(回调函数的返回值)，所以必须要写返回值。
     2. 而watchEffect更注重的是过程(回调函数的函数体)，所以不用写返回值。
+
+## 8. 生命周期
+
+## 9. 自定义hook函数
+
+1. 什么是hook？———— 本质是一个函数，把setup函数中使用的Composition API 进行了封装。
+2. 类似于vue2.x 中的mixin。
+3. 自定义hook的优势：复用代码，让setup中的逻辑更清楚易懂。
+
+## 10. toRef
+
+1. 作用：创建一个ref对象，其value值指向另一个对象中的某个属性。
+2. 语法：`const name = toRef(person, 'name')`
+3. 应用：要将响应式对象中的某个属性单独提供给外部使用时。
+4. 扩展：`toRefs`与`toRef`功能一致，但可以批量创建多个ref对象，语法：`toRefs(person)`
 
   
 
