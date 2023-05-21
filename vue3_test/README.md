@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-19 16:23:46
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-19 19:52:29
+ * @LastEditTime: 2023-05-21 21:33:50
 -->
 # vue3_test
 
@@ -92,6 +92,15 @@
     (1). attrs：值为对象，包含：组件外部传递过来，但没有在props配置中声明的属性，相当于 `this.$attrs`。
     (2). slots：收到的插槽内容，相当于`this.$slots`。
     (3). emit：分发自定义事件的函数，相当于`this.$emit`
+
+## 7. 计算属性与监视
+
+1. computed 函数
+2. watch 函数
+  (1). 与Vue2.x中的watch配置功能一致
+  (2). 两个小“坑”：
+    1. 监视reactive定义的响应式数据时：oldValue无法正确获取、强制开启了深度监视(deep配置失效)。
+    2. 监视reactive定义的响应式数据中某个属性时：deep配置有效。
 
   
 
