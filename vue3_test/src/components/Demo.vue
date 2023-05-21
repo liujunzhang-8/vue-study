@@ -4,64 +4,42 @@
  * @version: 
  * @Date: 2023-05-19 20:05:56
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-19 20:11:50
+ * @LastEditTime: 2023-05-21 21:06:46
 -->
 <template>
   <div>
-    <h1>个人信息</h1>
-    <h2 v-show="person.name">姓名: {{ person.name }}</h2>
-    <h2 v-show="person.sex">性别: {{ person.sex }}</h2>
-    <h2>年龄: {{ person.age }}</h2>
-    <h2>工作种类：{{ person.job.type }}</h2>
-    <h2>工作薪水：{{ person.job.salary }}</h2>
-    <h2>爱好：{{ person.hobby }}</h2>
-    <button @click="sayHello">说话</button>
-    <button @click="addSex">添加性别属性</button>
-    <button @click="deleteName">删除姓名属性</button>
+    <h2>当前求和为：{{ sum }}</h2>
+    <button @click="sum++">点我+1</button>
+    <hr />
+    <h2>当前信息为：{{ msg }}</h2>
+    <button @click="msg = '你好啊!'">修改信息</button>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 export default {
   name: 'VDemo',
-  props: ['msg'],
-  setup(props, context) {
-    console.log(props, context);
+  setup() {
     // 数据
-    let person = reactive({
-      name: '张三',
-      age: 18,
-      job: {
-        type: '前端工程师',
-        salary: '30k'
-      },
-      hobby: ['抽烟', '喝酒', '烫头']
-    })
+    let sum = ref(0)
+    let msg = ref('你好啊')
 
-    // 方法
-    function sayHello() {
-      person.name = '李四'
-      person.age = 48
-      person.job.type = 'UI设计师'
-      person.job.salary = '60k'
-      person.hobby[0] = '学习'
-      alert(`我叫${person.name}, 现在${person.age}岁了，你好啊！`)
-    }
+    // 监视
+    // 情况一：监视ref所定义的一个响应式数据
+    watch(sum, (newVal, oldVal) => {
+      console.log('sum变了', newVal, oldVal);
+    }, {immediate: true})
+    
+    // 情况二：监视ref所定义的多个响应式数据
+    // watch([sum, msg], (newVal, oldVal) => {
+    //   console.log('sum或者msg变了', newVal, oldVal);
+    // },  {immediate: true})
 
-    function addSex() {
-      person.sex = '男'
-    }
-
-    function deleteName() {
-      delete person.name
-    }
 
     return {
-      person,
-      sayHello,
-      addSex,
-      deleteName
+      sum,
+      msg
     }
 
     // 返回一个函数(渲染函数)
