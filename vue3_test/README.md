@@ -4,7 +4,7 @@
  * @version: 
  * @Date: 2023-05-19 16:23:46
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-22 11:24:46
+ * @LastEditTime: 2023-05-22 11:47:47
 -->
 # vue3_test
 
@@ -162,4 +162,25 @@
 
 1. 作用：实现祖与后代组件间通信
 2. 套路：父组件有一个`provide`选项来提供数据，后代组件有一个`inject`选项来开始使用这些数据
+
+### 06. 响应式数据的判断
+
+1. isRef：检查一个值是否为一个ref对象
+2. isReactive：检查一个对象是否是由`reactive`创建的响应式代理
+3. isReadonly：检查一个对象是否是由`readoly`创建的只读代理
+4. isProxy：检查一个对象是否是由`reactive`或者`readonly`方法创建的代理
+
+## Composition API 的优势
+
+1. Options API 存在的问题  
+  使用传统Options API中，新增或者修改一个需求，就需要分别在data、methods、computed里修改。
+2. Composition API 的优势
+  我们可以更加优雅的组织我们的代码，函数。让相关功能的代码更加有序的组织在一起。
+
+## 新的组件
+
+1. Fragment
+  (1). 在Vue2中：组件必须有一个根标签
+  (2). 在Vue3中：组件可以没有根标签，内部会将多个标签包含在一个Fragment虚拟元素中
+  (3). 好处：减少标签层级，减小内存占用
     
