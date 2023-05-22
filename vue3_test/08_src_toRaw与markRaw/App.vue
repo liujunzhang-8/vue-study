@@ -4,26 +4,26 @@
  * @version: 
  * @Date: 2023-05-19 16:23:44
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-22 11:19:20
+ * @LastEditTime: 2023-05-21 22:07:42
 -->
 <template>
   <div>
-    <h3>App根组件，{{ name }} --- {{ price }}</h3>
-    <VChild />
+    <VDemo v-if="isShowDemo" />
+    <button @click="isShowDemo = !isShowDemo">切换隐藏/显示</button>
   </div>
 </template>
 
 <script>
-import { reactive, toRefs, provide } from 'vue'
-import VChild from './components/Child.vue'
+import { ref } from 'vue';
+import VDemo from './components/Demo'
 export default {
   name: 'App',
-  components: {VChild},
+  components: {VDemo},
   setup() {
-    let car = reactive({name: '奔驰', price: '40W'})
-    provide('car', car) // 给自己的后代组件传递数据
+    let isShowDemo = ref(true)
+
     return {
-      ...toRefs(car)
+      isShowDemo
     }
   }
 }
@@ -34,10 +34,8 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(208, 34, 43);
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  padding: 10px;
 }
 </style>
