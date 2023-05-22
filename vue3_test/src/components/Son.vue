@@ -4,23 +4,20 @@
  * @version: 
  * @Date: 2023-05-22 11:11:14
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-22 11:21:12
+ * @LastEditTime: 2023-05-22 11:53:23
 -->
 <template>
   <div class='son'>
-    <h2>这是Son组件(孙组件), {{ car.name }} --- {{ car.price }}</h2>
+    <h2>这是Son组件</h2>
   </div>
 </template>
 
 <script>
-import { inject } from 'vue';
 export default {
   name: 'VSon',
   setup() {
-    let car = inject('car')
 
     return {
-      car
     }
   }
 }

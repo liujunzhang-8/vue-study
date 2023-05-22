@@ -4,11 +4,11 @@
  * @version: 
  * @Date: 2023-05-22 11:11:07
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-22 11:15:05
+ * @LastEditTime: 2023-05-22 11:53:01
 -->
 <template>
   <div class='child'>
-    <h2>这是Child组件(子组件)</h2>
+    <h2>这是Child组件</h2>
     <VSon />
   </div>
 </template>

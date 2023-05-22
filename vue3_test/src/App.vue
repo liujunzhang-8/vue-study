@@ -4,27 +4,31 @@
  * @version: 
  * @Date: 2023-05-19 16:23:44
  * @LastEditors: Gorgio.Liu
- * @LastEditTime: 2023-05-22 11:19:20
+ * @LastEditTime: 2023-05-22 12:19:06
 -->
 <template>
   <div>
-    <h3>App根组件，{{ name }} --- {{ price }}</h3>
-    <VChild />
+    <h3>App根组件</h3>
+    <Suspense>
+      <template v-slot:default>
+        <VChild />
+      </template>
+      <template v-slot:fallback>
+        <h3>加载中...</h3>
+      </template>
+    </Suspense>
   </div>
 </template>
 
 <script>
-import { reactive, toRefs, provide } from 'vue'
-import VChild from './components/Child.vue'
+// import VChild from './components/Child.vue' // 静态引入
+import { defineAsyncComponent } from 'vue';
+const VChild = defineAsyncComponent(() => import('./components/Child')) // 异步引入
 export default {
   name: 'App',
   components: {VChild},
   setup() {
-    let car = reactive({name: '奔驰', price: '40W'})
-    provide('car', car) // 给自己的后代组件传递数据
-    return {
-      ...toRefs(car)
-    }
+
   }
 }
 </script>
